@@ -712,12 +712,14 @@
       flex-shrink: 0;
       width: 72px; height: 72px;
       border-radius: 18px;
-      background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
+      overflow: hidden;
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    .hk-icon img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .hk-text h3 {
@@ -907,6 +909,42 @@
     .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); }
 
     /* ───────────────────────────────────────
+       ECG SCROLL PROGRESS (signature)
+    ─────────────────────────────────────── */
+    #ecg-progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 28px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    #ecg-progress svg { width: 100%; height: 100%; display: block; }
+
+    #ecg-progress path {
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 1px 3px rgba(230,57,70,0.35));
+    }
+
+    /* ───────────────────────────────────────
+       CTA MASCOT
+    ─────────────────────────────────────── */
+    .cta-mascot {
+      width: clamp(96px, 12vw, 132px);
+      border-radius: 26px;
+      box-shadow: 0 20px 50px -16px rgba(7,24,40,0.6);
+      margin-bottom: 28px;
+      animation: floatY 5s ease-in-out infinite;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* ───────────────────────────────────────
        ANIMATIONS
     ─────────────────────────────────────── */
     @keyframes slideUp {
@@ -928,6 +966,14 @@
     .reveal.visible {
       opacity: 1;
       transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-badge, .hero-title, .hero-title-en, .hero-lead, .hero-actions, .hero-visual { animation: none; opacity: 1; }
+      .ecg-path { animation: none; stroke-dashoffset: 0; }
+      .float-chip, .cta-mascot { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
     }
 
     /* ───────────────────────────────────────
@@ -954,6 +1000,13 @@
 </head>
 <body>
 
+  <!-- ═══════════ ECG SCROLL PROGRESS ═══════════ -->
+  <div id="ecg-progress" aria-hidden="true">
+    <svg viewBox="0 0 1000 28" preserveAspectRatio="none">
+      <path id="ecg-progress-path" d="M0,16 L120,16 L145,16 L155,6 L165,24 L175,11 L185,16 L320,16 L345,16 L355,6 L365,24 L375,11 L385,16 L520,16 L545,16 L555,6 L565,24 L575,11 L585,16 L720,16 L745,16 L755,6 L765,24 L775,11 L785,16 L920,16 L1000,16"/>
+    </svg>
+  </div>
+
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" aria-label="ヒーロー">
     <div class="hero-bg"></div>
@@ -975,7 +1028,7 @@
       <p class="hero-title-en">血圧・脈拍・体重</p>
       <p class="hero-lead">
         血圧・脈拍・体重に加えて、<strong>むくみや息切れなどの症状</strong>も包括的に記録。<br>
-        Appleヘルスケアと連携し、毎日のセルフケアを途切れさせません。
+        Appleヘルスケアと連携し、毎日のセルフケアを続けやすくします。
       </p>
       <div class="hero-actions">
         <a href="https://apps.apple.com/jp/app/%E5%BF%83%E4%B8%8D%E5%85%A8%E6%89%8B%E5%B8%B3-%E8%A1%80%E5%9C%A7-%E4%BD%93%E9%87%8D-%E7%97%87%E7%8A%B6/id6765601367"
@@ -985,7 +1038,7 @@
           </svg>
           App Storeで無料ダウンロード
         </a>
-        <span class="hero-sub-note">iOS · 無料(アプリ内課金あり)</span>
+        <span class="hero-sub-note">iPhone・iPad対応 ／ 無料(一部アプリ内課金)</span>
       </div>
     </div>
 
@@ -1091,12 +1144,12 @@
         </div>
         <div class="feat-card reveal" style="transition-delay:0.14s">
           <p class="feat-number">03</p>
-          <h3 class="feat-title">体重の細かな<br>変化を見逃さない</h3>
+          <h3 class="feat-title">体重の細かな<br>変化を確認しやすく</h3>
           <p class="feat-text">心不全管理で重要な体重変化を細かく記録。日ごとの増減を視覚的に確認できます。</p>
         </div>
         <div class="feat-card reveal" style="transition-delay:0.04s">
           <p class="feat-number">04</p>
-          <h3 class="feat-title">Appleヘルスケアと<br>シームレスに連携</h3>
+          <h3 class="feat-title">許可したAppleヘルスケアの<br>データを参照</h3>
           <p class="feat-text">血圧計・体重計などの測定機器がヘルスケアに書き込んだデータを参照。二重入力の手間がありません。</p>
         </div>
         <div class="feat-card reveal" style="transition-delay:0.11s">
@@ -1128,7 +1181,7 @@
             <div class="help-point">
               <span class="help-num">01</span>
               <div>
-                <p class="help-point-title">紙由来心不全手帳をアプリに移行したい方</p>
+                <p class="help-point-title">紙の心不全手帳をアプリに移行したい方</p>
                 <p class="help-point-body">従来の記録項目をそのままアプリで続けられます。データが蓄積されるため、後から傾向を見直しやすくなります。</p>
               </div>
             </div>
@@ -1136,7 +1189,7 @@
               <span class="help-num">02</span>
               <div>
                 <p class="help-point-title">測定値だけでなく症状も一緒に残したい方</p>
-                <p class="help-point-body">数値と体調はセットで記録すると意味を持ちます。</p>
+                <p class="help-point-body">数値と症状を合わせて残すことで、変化を振り返りやすくなります。</p>
               </div>
             </div>
             <div class="help-point">
@@ -1199,13 +1252,13 @@
   <!-- ═══════════ HEALTHKIT ═══════════ -->
   <div class="healthkit">
     <div class="healthkit-inner reveal">
-      <div class="hk-icon">❤️</div>
+      <div class="hk-icon"><img src="xxx.png" alt=""></div>
       <div class="hk-text">
         <h3>Appleヘルスケアと連携</h3>
         <p>
           血圧計・体重計など、ヘルスケアに対応した測定機器のデータを自動で参照します。
           別途入力する手間なく、症状記録との組み合わせで毎日のセルフケアをより充実させます。
-          複数のアプリを行き来することなく、測定値を一元管理できます。
+          複数のアプリを行き来することなく、測定値と症状をひとつの画面で確認できます。
         </p>
       </div>
     </div>
@@ -1228,6 +1281,7 @@
   <!-- ═══════════ CTA ═══════════ -->
   <section class="cta" aria-label="ダウンロード">
     <div class="s-inner">
+      <img src="xxx.png" alt="心不全手帳のマスコット" class="cta-mascot reveal">
       <span class="label">Download</span>
       <h2 class="s-title reveal">今日から、記録を始めよう。</h2>
       <p class="s-body reveal" style="transition-delay:0.1s">
@@ -1283,6 +1337,30 @@
       });
     }, { threshold: 0.3 });
     bars.forEach(b => barObs.observe(b));
+
+    // ECG scroll progress (draws with page scroll)
+    (function () {
+      const path = document.getElementById('ecg-progress-path');
+      if (!path) return;
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) { path.style.strokeDashoffset = 0; return; }
+      let ticking = false;
+      function update() {
+        ticking = false;
+        const doc = document.documentElement;
+        const total = doc.scrollHeight - window.innerHeight;
+        const p = total > 0 ? window.scrollY / total : 0;
+        path.style.strokeDashoffset = len * (1 - p);
+      }
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
   </script>
 </body>
 </html>
