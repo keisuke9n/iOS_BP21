@@ -4,78 +4,432 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>心不全手帳 プライバシーポリシー</title>
-  <link rel="stylesheet" href="legal.css">
+  <meta name="description" content="心不全手帳(Metamorph)のプライバシーポリシー。取得する情報、利用目的、HealthKitデータの取扱いについて説明します。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-50:  #eef5fc;
+      --blue-100: #dcebf8;
+      --blue-200: #b7d5f0;
+      --blue-300: #85b6e3;
+      --blue-500: #2f6fb4;
+      --blue-600: #245a96;
+      --blue-700: #1b4674;
+      --blue-800: #123253;
+      --blue-900: #0b2138;
+      --blue-950: #071828;
+      --red: #e63946;
+      --ink: #12283d;
+      --ink-soft: #3c556d;
+      --line: #cfe0ef;
+      --radius: 14px;
+      --font-display: "Syne", sans-serif;
+      --font-body: "Noto Sans JP", sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--blue-50);
+      color: var(--ink);
+      line-height: 1.85;
+      font-size: 15.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue-600); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--red); }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative;
+      background: linear-gradient(160deg, var(--blue-950) 0%, var(--blue-800) 78%, var(--blue-700) 100%);
+      color: #fff;
+      overflow: hidden;
+      padding: 84px 24px 110px;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .eyebrow {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--blue-300);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: rise 0.7s ease 0.1s forwards;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 34px; height: 2px;
+      background: var(--red);
+    }
+    .hero h1 {
+      font-size: clamp(26px, 5.4vw, 40px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.35;
+      margin-top: 18px;
+      opacity: 0;
+      animation: rise 0.7s ease 0.25s forwards;
+    }
+    .hero .meta-row {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      opacity: 0;
+      animation: rise 0.7s ease 0.4s forwards;
+    }
+    .meta-chip {
+      font-size: 12.5px;
+      color: var(--blue-100);
+      border: 1px solid rgba(183, 213, 240, 0.35);
+      border-radius: 999px;
+      padding: 5px 14px;
+      backdrop-filter: blur(2px);
+    }
+    .meta-chip a { color: #fff; }
+    .meta-chip a:hover { color: var(--blue-200); }
+
+    /* ECG line */
+    .ecg-wrap {
+      position: absolute;
+      left: 0; right: 0; bottom: 26px;
+      z-index: 1;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .ecg-wrap svg { width: 100%; height: 70px; display: block; }
+    .ecg-path {
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 1400;
+      animation: draw 3.2s ease-out 0.5s forwards;
+      filter: drop-shadow(0 0 6px rgba(230, 57, 70, 0.65));
+    }
+    .ecg-dot {
+      fill: var(--red);
+      opacity: 0;
+      animation: blink 1.1s ease-in-out 3.4s infinite;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes blink { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+
+    /* ============ BODY ============ */
+    .container {
+      max-width: 760px;
+      margin: -56px auto 0;
+      padding: 0 24px 40px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 46px rgba(11, 33, 56, 0.10);
+      padding: clamp(26px, 5vw, 48px);
+    }
+
+    section.policy {
+      padding: 26px 0;
+      border-bottom: 1px solid var(--blue-100);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    section.policy.visible { opacity: 1; transform: translateY(0); }
+    section.policy:last-of-type { border-bottom: none; }
+
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .sec-num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--red);
+      min-width: 30px;
+    }
+    .sec-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--blue-800);
+    }
+
+    section.policy p,
+    section.policy ul { color: var(--ink-soft); }
+
+    section.policy ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    section.policy li {
+      position: relative;
+      padding-left: 22px;
+    }
+    section.policy li::before {
+      content: "";
+      position: absolute;
+      left: 4px; top: 0.72em;
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      background: var(--blue-300);
+      transform: rotate(45deg);
+    }
+
+    .callout {
+      margin-top: 12px;
+      background: var(--blue-50);
+      border-left: 3px solid var(--blue-500);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+    }
+    .callout strong { color: var(--blue-800); }
+
+    .notice {
+      background: #fdf1f2;
+      border-left: 3px solid var(--red);
+    }
+    .notice strong { color: var(--red); }
+
+    .contact {
+      margin-top: 6px;
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: grid;
+      gap: 4px;
+    }
+
+    /* ============ CTA / FOOTER ============ */
+    .backlinks {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 999px;
+      padding: 12px 26px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(230, 57, 70, 0.35);
+    }
+    .btn-primary:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(230, 57, 70, 0.45);
+    }
+    .btn-ghost {
+      border: 1.5px solid var(--blue-300);
+      color: var(--blue-700);
+      background: #fff;
+    }
+    .btn-ghost:hover {
+      color: var(--blue-900);
+      border-color: var(--blue-500);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 44px;
+      padding-top: 20px;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+    .footer .brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-top: 6px;
+    }
+
+    /* ============ MOTION SAFETY ============ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .eyebrow, .hero h1, .hero .meta-row { animation: none; opacity: 1; }
+      .ecg-path { animation: none; stroke-dashoffset: 0; }
+      .ecg-dot { animation: none; opacity: 0.8; }
+      section.policy { opacity: 1; transform: none; transition: none; }
+      .btn, .btn:hover { transform: none; }
+    }
+
+    @media (max-width: 520px) {
+      .hero { padding: 64px 20px 96px; }
+      .sec-head { gap: 10px; }
+    }
+  </style>
 </head>
 <body>
-  <main class="container">
-    <header class="hero">
+
+  <header class="hero">
+    <div class="hero-inner">
       <p class="eyebrow">Privacy Policy</p>
-      <h1>心不全手帳 プライバシーポリシー</h1>
-      <p class="meta">開発: Metamorph</p>
-      <p class="meta">連絡先: <a href="mailto:keisuke9n@gmail.com">keisuke9n@gmail.com</a></p>
-    </header>
-
-    <section>
-      <h2>1. 基本方針</h2>
-      <p>Metamorphは、アプリ「心不全手帳」における利用者情報の取扱いについて、以下のとおり定めます。</p>
-    </section>
-
-    <section>
-      <h2>2. 取得する情報</h2>
-      <ul>
-        <li>利用者が入力した血圧、脈拍、体重、症状に関する情報</li>
-        <li>Appleヘルスケア（HealthKit）との連携により利用者が許可した健康情報</li>
-        <li>端末内に保存される設定情報、利用状況情報、購入状態</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>3. 利用目的</h2>
-      <ul>
-        <li>健康記録の保存、表示、振り返り機能の提供</li>
-        <li>4週間の主要データ表示など、有料機能の提供状態の確認</li>
-        <li>アプリの改善、不具合対応、利用体験の向上</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>4. HealthKit情報について</h2>
-      <p>HealthKitから取得した情報は、本アプリ内での表示・記録補助のためにのみ利用し、広告、マーケティング、第三者提供の目的では利用しません。</p>
-    </section>
-
-    <section>
-      <h2>5. 第三者提供</h2>
-      <p>法令に基づく場合を除き、利用者の同意なく個人情報を第三者に提供しません。</p>
-    </section>
-
-    <section>
-      <h2>6. 保存場所</h2>
-      <p>入力情報は主として利用者の端末内およびAppleヘルスケア内に保存されます。開発者が外部サーバーへ健康情報を自動送信することは想定していません。</p>
-    </section>
-
-    <section>
-      <h2>7. 医療上の注意</h2>
-      <p>本アプリは記録と振り返りを目的としたものであり、診断、治療、医療判断を行うものではありません。体調に不安がある場合は医療機関にご相談ください。</p>
-    </section>
-
-    <section>
-      <h2>8. サービスの終了とデータについて</h2>
-      <p>本アプリの提供を終了する場合、開発者は可能な限り事前に本ページまたはアプリ内でお知らせします。</p>
-      <p style="margin-top:12px;"><strong>データの保存先と継続性</strong>: 本アプリに入力された健康情報は、利用者の端末内およびAppleヘルスケア（HealthKit）に保存されています。アプリを削除しても、HealthKitに連携されたデータはAppleの管理のもとで引き続き保持されます。アプリ固有のデータについては、サービス終了前にエクスポートなどのバックアップをお勧めします。</p>
-      <p style="margin-top:12px;"><strong>開発者によるデータの扱い</strong>: 開発者は健康情報を外部サーバーへ送信していないため、サービス終了後に開発者側でデータを削除する手続きは不要です。端末内のデータは利用者ご自身の操作（アプリ削除等）により管理いただけます。</p>
-    </section>
-
-    <section>
-      <h2>9. お問い合わせ</h2>
-      <div class="contact">
-        <p><strong>開発者</strong>: Metamorph</p>
-        <p><strong>連絡先</strong>: <a href="mailto:keisuke9n@gmail.com">keisuke9n@gmail.com</a></p>
+      <h1>心不全手帳<br>プライバシーポリシー</h1>
+      <div class="meta-row">
+        <span class="meta-chip">開発: Metamorph</span>
+        <span class="meta-chip">連絡先: <a href="mailto:keisuke9n@gmail.com">keisuke9n@gmail.com</a></span>
       </div>
-    </section>
+    </div>
+    <div class="ecg-wrap" aria-hidden="true">
+      <svg viewBox="0 0 1200 70" preserveAspectRatio="none">
+        <path class="ecg-path" d="M0,40 L180,40 L200,40 L210,30 L220,40 L250,40 L258,44 L266,10 L274,62 L282,40 L310,40 L325,33 L340,40 L560,40 L580,40 L590,30 L600,40 L630,40 L638,44 L646,10 L654,62 L662,40 L690,40 L705,33 L720,40 L940,40 L960,40 L970,30 L980,40 L1010,40 L1018,44 L1026,10 L1034,62 L1042,40 L1070,40 L1085,33 L1100,40 L1200,40"/>
+        <circle class="ecg-dot" cx="1180" cy="40" r="4"/>
+      </svg>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">01</span><h2>基本方針</h2></div>
+        <p>Metamorphは、アプリ「心不全手帳」における利用者情報の取扱いについて、以下のとおり定めます。</p>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">02</span><h2>取得する情報</h2></div>
+        <ul>
+          <li>利用者が入力した血圧、脈拍、体重、症状に関する情報</li>
+          <li>Appleヘルスケア(HealthKit)との連携により利用者が許可した健康情報</li>
+          <li>端末内に保存される設定情報、利用状況情報、購入状態</li>
+        </ul>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">03</span><h2>利用目的</h2></div>
+        <ul>
+          <li>健康記録の保存、表示、振り返り機能の提供</li>
+          <li>4週間の主要データ表示など、有料機能の提供状態の確認</li>
+          <li>アプリの改善、不具合対応、利用体験の向上</li>
+        </ul>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">04</span><h2>HealthKit情報について</h2></div>
+        <p>HealthKitから取得した情報は、本アプリ内での表示・記録補助のためにのみ利用し、広告、マーケティング、第三者提供の目的では利用しません。</p>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">05</span><h2>第三者提供</h2></div>
+        <p>法令に基づく場合を除き、利用者の同意なく個人情報を第三者に提供しません。</p>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">06</span><h2>保存場所</h2></div>
+        <p>入力情報は主として利用者の端末内およびAppleヘルスケア内に保存されます。開発者が外部サーバーへ健康情報を自動送信することは想定していません。</p>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">07</span><h2>医療上の注意</h2></div>
+        <div class="callout notice">
+          <p>本アプリは記録と振り返りを目的としたものであり、診断、治療、医療判断を行うものではありません。体調に不安がある場合は医療機関にご相談ください。</p>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">08</span><h2>サービスの終了とデータについて</h2></div>
+        <p>本アプリの提供を終了する場合、開発者は可能な限り事前に本ページまたはアプリ内でお知らせします。</p>
+        <div class="callout">
+          <p><strong>データの保存先と継続性</strong>: 本アプリに入力された健康情報は、利用者の端末内およびAppleヘルスケア(HealthKit)に保存されています。アプリを削除しても、HealthKitに連携されたデータはAppleの管理のもとで引き続き保持されます。アプリ固有のデータについては、サービス終了前にエクスポートなどのバックアップをお勧めします。</p>
+        </div>
+        <div class="callout">
+          <p><strong>開発者によるデータの扱い</strong>: 開発者は健康情報を外部サーバーへ送信していないため、サービス終了後に開発者側でデータを削除する手続きは不要です。端末内のデータは利用者ご自身の操作(アプリ削除等)により管理いただけます。</p>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="sec-head"><span class="sec-num">09</span><h2>お問い合わせ</h2></div>
+        <div class="contact">
+          <p><strong>開発者</strong>: Metamorph</p>
+          <p><strong>連絡先</strong>: <a href="mailto:keisuke9n@gmail.com">keisuke9n@gmail.com</a></p>
+        </div>
+      </section>
+
+      <div class="backlinks">
+        <a class="btn btn-primary" href="https://apps.apple.com/jp/app/%E5%BF%83%E4%B8%8D%E5%85%A8%E6%89%8B%E5%B8%B3-%E8%A1%80%E5%9C%A7-%E4%BD%93%E9%87%8D-%E7%97%87%E7%8A%B6/id6765601367">App Storeで無料ダウンロード</a>
+        <a class="btn btn-ghost" href="https://keisuke9n.github.io/iOS_BP21/">アプリ紹介ページへ戻る</a>
+      </div>
+
+    </div>
 
     <footer class="footer">
       <p>最終更新日: 2026年5月8日</p>
+      <p class="brand">心不全手帳 by Metamorph</p>
+      <p style="margin-top:4px;">&copy; 2025 Metamorph</p>
     </footer>
   </main>
+
+  <script>
+    (function () {
+      var sections = document.querySelectorAll('section.policy');
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || !('IntersectionObserver' in window)) {
+        sections.forEach(function (s) { s.classList.add('visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      sections.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
 </body>
 </html>
